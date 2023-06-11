@@ -9,7 +9,7 @@ const ERR_MSG = {
     INVALID_CONFIRM_PW: '비밀번호가 일치하지 않습니다.',
 }
 
-const FormInput = ({ id, label, validation, formState, inputProps }) => {
+const FormInput = ({ id, label, formState, inputProps }) => {
     const { setFormData } = useContext(FormContext)
     const inputRef = useRef(null)
 
@@ -36,7 +36,6 @@ const FormInput = ({ id, label, validation, formState, inputProps }) => {
                         ? ''
                         : ' border-red-600')
                 }
-                onBlur={() => validation(id)}
                 onChange={(e) => {
                     setFormData((prev) => ({
                         ...prev,

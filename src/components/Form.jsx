@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import FormInput from './FormInput'
 import { FormContext } from '../App'
 
@@ -15,9 +15,14 @@ const Form = ({ showModal }) => {
         confirmPw: 'INITIAL',
     })
 
-    const inputCheck = (target) => {
+    useEffect(() => {
+        Object.entries(formData).forEach(([target, value]) => {
+            inputCheck(target, value)
+        })
+    }, [formData])
+
+    const inputCheck = (target, value) => {
         let result
-        const value = formData[target]
         if (value === '') {
             result = 'EMPTY'
         } else {
@@ -28,7 +33,6 @@ const Form = ({ showModal }) => {
 
                 case 'pw':
                     result = REGEXP.PW.test(value) ? true : 'INVALID_PW'
-                    inputCheck('confirmPw')
                     break
 
                 case 'confirmPw':
@@ -46,10 +50,6 @@ const Form = ({ showModal }) => {
     const handleSubmit = (event) => {
         event.preventDefault()
 
-        Object.keys(formState).forEach((target) => {
-            inputCheck(target)
-        })
-
         if (Object.values(formState).every((value) => value === true)) {
             showModal()
         }
@@ -65,7 +65,6 @@ const Form = ({ showModal }) => {
             <FormInput
                 id={'id'}
                 label={'아이디'}
-                validation={inputCheck}
                 formState={formState.id}
                 inputProps={{
                     type: 'text',
@@ -75,7 +74,6 @@ const Form = ({ showModal }) => {
             <FormInput
                 id={'pw'}
                 label={'비밀번호'}
-                validation={inputCheck}
                 formState={formState.pw}
                 inputProps={{
                     type: 'password',
@@ -86,7 +84,6 @@ const Form = ({ showModal }) => {
             <FormInput
                 id={'confirmPw'}
                 label={'비밀번호 확인'}
-                validation={inputCheck}
                 formState={formState.confirmPw}
                 inputProps={{
                     type: 'password',
