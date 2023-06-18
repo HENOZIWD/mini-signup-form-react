@@ -1,9 +1,6 @@
-import { forwardRef, useContext } from 'react'
-import { FormContext } from '../App'
+import { forwardRef } from 'react'
 
-const Modal = forwardRef(function Modal(props, ref) {
-    const { formData } = useContext(FormContext)
-
+const Modal = forwardRef(({ getValues }, ref) => {
     const closeModal = () => {
         if (ref.current) {
             ref.current.close()
@@ -23,7 +20,7 @@ const Modal = forwardRef(function Modal(props, ref) {
                                 id="confirm-id"
                                 className="text-sm text-blue-500 bold"
                             >
-                                {formData.id}
+                                {getValues().id}
                             </p>
                         </div>
                         <div className="mt-2">
@@ -32,7 +29,7 @@ const Modal = forwardRef(function Modal(props, ref) {
                                 id="confirm-pw"
                                 className="text-sm text-blue-500 bold"
                             >
-                                {formData.pw}
+                                {getValues().pw}
                             </p>
                         </div>
                     </div>
